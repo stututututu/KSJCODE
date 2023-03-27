@@ -1,0 +1,9 @@
+package res;
+
+public class AirTicketManager {
+	public static String month;
+	public static String day;
+	public static String depart;
+	public static String arrival;
+
+}

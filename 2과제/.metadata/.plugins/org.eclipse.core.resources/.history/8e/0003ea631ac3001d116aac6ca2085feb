@@ -1,0 +1,273 @@
+package windows;
+
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.util.Vector;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+
+import UserModel.UserModel;
+import bases.BaseComboBox;
+import bases.BaseFrame;
+import bases.BaseImageLabel;
+import bases.BasePanel;
+import jdbc.DbManager;
+import messge.Msg;
+import model.DataModel;
+import model.ImageModel;
+
+public class MainForm extends BaseFrame {
+	private BaseImageLabel jlMainImg;
+	private BaseComboBox jcbBookType;
+	private BasePanel jpGridImg;
+	private JButton jbLogin;
+	private JButton jbSignUp;
+	private JButton jbBookList;
+	private JButton jbMyPage;
+	private JButton jbBookRead;
+	private JButton jbExit;
+	private JButton jbLogout;
+	private BasePanel tmp;
+	private JButton jbBookSet;
+	private JButton jbBookAdd;
+	private JButton jbBookGraph;
+
+	public MainForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("메인", 850, 700);
+	}
+
+	@Override
+	public void made() {
+		// TODO Auto-generated method stub
+		jlMainImg = new BaseImageLabel("로그인 후 이용해주세요.", "./datafiles/메인1.jpg", 850, 400, 25).setLocateCenter()
+				.setTextColor(Color.white);
+
+		jcbBookType = new BaseComboBox(DataModel.allType());
+		jpGridImg = new BasePanel().setGrid(1, 5, 15, 0);
+
+		jbLogin = new JButton("로그인");
+		jbSignUp = new JButton("회원가입");
+		jbBookList = new JButton("도서목록");
+		jbMyPage = new JButton("마이페이지");
+		jbBookRead = new JButton("책 읽기");
+		jbExit = new JButton("종료");
+		jbLogout = new JButton("로그아웃");
+		jbBookSet = new JButton("도서관리");
+		jbBookAdd = new JButton("도서등록");
+		jbBookGraph = new JButton("대출통계");
+
+		formRefresh(false);
+
+//		logout();
+//		login();
+//		admin();
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpTop.add(jlMainImg);
+		jpCenter.setLine("인기도서");
+		jpCenter.addChild();
+		jpCenter.jpTop.setFlowLeft().add(jcbBookType);
+		jpCenter.jpCenter.add(jpGridImg);
+
+		// 로그인 된 테스트
+//		Vector<Vector<String>> userData = DbManager.db.getDb("SELECT * FROM 2023지방_2.user where u_id = ? and u_pw = ?;",
+//				"user01", "user01!");
+//		UserModel.login(userData.get(0));
+//		formRefresh(false);
+
+		// 관리자 테스트
+		formRefresh(true);
+
+		changeGridImg();
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+		jcbBookType.addActionListener(e -> {
+			changeGridImg();
+		});
+
+		jbLogin.addActionListener(e -> {
+			new LoginForm(this);
+		});
+
+		jbSignUp.addActionListener(e -> {
+			new SignUpForm();
+		});
+
+		jbLogout.addActionListener(e -> {
+			UserModel.logout();
+			formRefresh(false);
+		});
+
+		jbExit.addActionListener(e -> {
+			System.exit(0);
+		});
+
+		jbBookList.addActionListener(e -> {
+			new BookListForm();
+		});
+
+		jbBookSet.addActionListener(e -> {
+			new BookSetForm();
+		});
+	}
+
+	private void changeGridImg() {
+		// TODO Auto-generated method stub
+		jpGridImg.removeAll();
+
+		int bookType = jcbBookType.getSelectedIndex();
+		String typeIndex = (bookType == 0 ? "%" : jcbBookType.getSelectedIndex() + "");
+
+		System.out.println("선택 : " + jcbBookType.getSelectedItem() + " / " + typeIndex);
+
+		Vector<ImageModel> bookData = DbManager.db.getImageModel("SELECT\r\n" + "b.*, d.*\r\n"
+				+ "FROM 2023지방_2.rental as r\r\n" + "join book as b\r\n" + "join division as d\r\n"
+				+ "on r.b_no = b.b_no and b.d_no = d.d_no\r\n" + "where b.d_no like ?\r\n" + "group by r.b_no\r\n"
+				+ "order by count(r.b_no) desc, r.b_no\r\n" + "limit 5;", 7, typeIndex);
+
+		for (ImageModel row : bookData) {
+			BasePanel jpTmpBookImg = new BasePanel();
+			jpTmpBookImg.add(new BaseImageLabel(row.getData().get(1), row.getIcon(), 130, 145).setLocateBottom()
+					.setTextCenter());
+
+			jpTmpBookImg.setLine();
+
+			jpGridImg.add(jpTmpBookImg);
+
+			String b_author = row.getData().get(3);
+			String b_exp = row.getData().get(6);
+
+			if (b_exp.length() > 13)
+				b_exp = b_exp.substring(0, 13);
+
+			String tooltip = "<html> 저자 : " + b_author + "<br>" + "설명 : " + b_exp + "</html>";
+			jpTmpBookImg.setToolTipText(tooltip);
+
+			jpTmpBookImg.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					super.mousePressed(e);
+
+					if (e.getClickCount() == 2) {
+						if (jlMainImg.getText().equals("관리자님 환영합니다.")) {
+							System.out.println("도서 수정 폼");
+							return;
+						}
+						if (UserModel.userData == null) {
+							Msg.error("로그인 후 이용하세요.");
+							return;
+						}
+						new BookInfoForm(row);
+					}
+
+				}
+
+			});
+
+		}
+
+		super.refresh();
+
+	}
+
+	public void logout() {
+		// TODO Auto-generated method stub
+		jpBottom.removeAll();
+
+		jlMainImg.setText("로그인 후 이용해주세요.\n");
+
+		tmp = new BasePanel().setFlowCenter();
+		tmp.add(jbLogin);
+		tmp.add(jbSignUp);
+		tmp.add(jbBookList);
+		tmp.add(jbMyPage);
+		tmp.add(jbBookRead);
+		tmp.add(jbExit);
+
+		jbLogin.setEnabled(true);
+		jbSignUp.setEnabled(true);
+		jbBookList.setEnabled(false);
+		jbMyPage.setEnabled(false);
+		jbBookRead.setEnabled(false);
+		jbExit.setEnabled(true);
+
+		jpBottom.add(tmp);
+	}
+
+	public void login() {
+		// TODO Auto-generated method stub
+		jpBottom.removeAll();
+
+		jlMainImg.setText(UserModel.userData.get(1) + "님 환영합니다.");
+
+		tmp = new BasePanel().setFlowCenter();
+		tmp.add(jbLogout);
+		tmp.add(jbSignUp);
+		tmp.add(jbBookList);
+		tmp.add(jbMyPage);
+		tmp.add(jbBookRead);
+		tmp.add(jbExit);
+
+		jbLogin.setEnabled(true);
+		jbSignUp.setEnabled(false);
+		jbBookList.setEnabled(true);
+		jbMyPage.setEnabled(true);
+		jbBookRead.setEnabled(true);
+		jbExit.setEnabled(true);
+
+		jpBottom.add(tmp);
+	}
+
+	public void admin() {
+		// TODO Auto-generated method stub
+		jpBottom.removeAll();
+
+		jlMainImg.setText("관리자님 환영합니다.");
+
+		tmp = new BasePanel().setFlowCenter();
+		tmp.add(jbLogout);
+		tmp.add(jbBookSet);
+		tmp.add(jbBookAdd);
+		tmp.add(jbBookGraph);
+		tmp.add(jbExit);
+
+		jbLogin.setEnabled(true);
+		jbSignUp.setEnabled(true);
+		jbBookList.setEnabled(true);
+		jbMyPage.setEnabled(true);
+		jbBookRead.setEnabled(true);
+		jbExit.setEnabled(true);
+
+		jpBottom.add(tmp);
+	}
+
+	public void formRefresh(boolean admin) {
+		// TODO Auto-generated method stub
+		if (admin) {
+			logout();
+			admin();
+			return;
+
+		}
+
+		if (UserModel.userData == null) {
+			logout();
+			return;
+		}
+
+		login();
+	}
+
+}

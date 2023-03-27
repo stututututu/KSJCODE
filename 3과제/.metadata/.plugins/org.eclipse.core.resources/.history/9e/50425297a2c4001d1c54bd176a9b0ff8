@@ -1,0 +1,65 @@
+package run;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.regex.Pattern;
+
+import bases.BaseFrame;
+
+public class test extends BaseFrame {
+	public static void main(String[] args) {
+//		String pattern = "^[a-zA-Z]+$";
+//
+//		String pw = "asdf";
+//
+//		System.out.println(Pattern.matches(pattern, pw));
+
+//		HashMap<Integer, String> a = new HashMap<>();
+//		
+//		a.put(1, "Ff");
+//		
+//		System.out.println(a.get(1));
+//
+//		a.put(1, "xx");
+//
+//		System.out.println(a.get(1));
+//
+
+		new test();
+
+	}
+
+	public test() {
+		// TODO Auto-generated constructor stub
+//		setFrame("test", 500, 500);
+
+		System.out.println((665280f / 100f) * 1f);
+		System.out.println((302400 / 10) * 8);
+
+	}
+
+	@Override
+	public void make() {
+		// TODO Auto-generated method stub
+		jpCenter.setGrid(7, 10, 0, 0);
+
+		for (int i = 0; i < 50; i++) {
+
+		}
+
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+
+	}
+}

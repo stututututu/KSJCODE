@@ -1,0 +1,9 @@
+package jdbc;
+
+public class DbCreate {
+	public DbCreate() {
+		// TODO Auto-generated constructor stub
+
+		int rst = DbManager.db.setDb("");
+	}
+}

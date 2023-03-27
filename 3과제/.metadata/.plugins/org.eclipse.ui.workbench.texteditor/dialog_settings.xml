@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="String"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="Object"/>
+			<item value="String"/>
+			<item value="row1"/>
+			<item value="jlASeatData.get(i)"/>
+			<item value="jlASeatData"/>
+			<item value="A"/>
+			<item value=".data) {"/>
+			<item value="private"/>
+			<item value="JButton"/>
+			<item value="super"/>
+		</list>
+		<list key="replacehistory">
+			<item value="String"/>
+			<item value="Object"/>
+			<item value="row4"/>
+			<item value="row3"/>
+			<item value="row2"/>
+			<item value="jlESeatData"/>
+			<item value="jlDSeatData"/>
+			<item value="jlCSeatData"/>
+			<item value="jlBSeatData"/>
+			<item value="B"/>
+			<item value="public"/>
+			<item value="int"/>
+			<item value="BaseButton"/>
+			<item value="jpMain"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="824"/>
+		<item key="DIALOG_Y_ORIGIN" value="273"/>
+		<item key="DIALOG_WIDTH" value="288"/>
+		<item key="DIALOG_HEIGHT" value="391"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+</section>

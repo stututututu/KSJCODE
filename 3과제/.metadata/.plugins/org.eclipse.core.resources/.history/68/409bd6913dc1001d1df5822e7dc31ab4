@@ -1,0 +1,160 @@
+package windows;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Vector;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+
+import bases.BaseButton;
+import bases.BaseComboBox;
+import bases.BaseFrame;
+import bases.BaseLabel;
+import jdbc.DbManager;
+import messge.Msg;
+import model.DataModel;
+import res.AirTicketManager;
+
+public class AirSearchForm extends BaseFrame {
+	private BaseComboBox jcbStart;
+	private BaseComboBox jcbLast;
+	public JTextField jtfDate;
+	private BaseButton jbOkey;
+	private BaseLabel jlDate;
+	private AirSearchForm airSearchForm;
+
+	public AirSearchForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("항공권 조회", 280, 260);
+	}
+
+	@Override
+	public void make() {
+		// TODO Auto-generated method stub
+		
+		Vector<Vector<String>> data = DbManager.db.getDb("SELECT n_name, n_no FROM 2023지방_3.nation;");
+		jcbStart = new BaseComboBox(DataModel.allData());
+		jcbLast = new BaseComboBox();
+
+		jtfDate = new JTextField();
+
+		jlDate = new BaseLabel().addImg("./datafiles/달력.png", 35, 35);
+
+		jbOkey = new BaseButton("확인");
+
+		jtfDate.setEditable(false);
+
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpCenter.addChild();
+
+		int vSize = 20;
+		jpCenter.jpLeft.setGrid(3, 1, 0, vSize);
+		jpCenter.jpLeft.add(new BaseLabel("출발지"));
+		jpCenter.jpLeft.add(new BaseLabel("도착지"));
+		jpCenter.jpLeft.add(new BaseLabel("출발날짜"));
+
+		jpCenter.jpCenter.setGrid(3, 1, 0, vSize);
+		jpCenter.jpCenter.add(jcbStart);
+		jpCenter.jpCenter.add(jcbLast);
+		jpCenter.jpCenter.add(jtfDate);
+
+		jpCenter.jpRight.setGrid(3, 1, 0, vSize);
+		jpCenter.jpRight.add(new BaseLabel());
+		jpCenter.jpRight.add(new BaseLabel());
+		jpCenter.jpRight.add(jlDate);
+
+		jpBottom.setFlowCenter();
+		jpBottom.add(jbOkey);
+
+		jpCenter.setEmtyBorder(0, 0, 20, 0);
+		jpCenter.jpCenter.setEmtyBorder(0, 10, 0, 10);
+		jpMain.setEmtyBorder(15, 15, 15, 10);
+
+		
+//		jcbStart.set
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+		jcbStart.addActionListener(e -> {
+
+			int jcbStartIndex = jcbStart.getSelectedIndex();
+			
+			
+			System.out.println("jcbStartIndex : " + jcbStartIndex);
+
+			jcbLast.removeAllItems();
+			jcbLast.addItem("");
+
+			if (jcbStartIndex == 0) {
+
+				jcbLast.setSelectedIndex(0);
+				jtfDate.setText("");
+				return;
+			}
+
+			Vector<Vector<String>> data = DbManager.db
+					.getDb("SELECT n_name, n_no FROM 2023지방_3.nation where n_no != ?;;", jcbStartIndex);
+
+			for (Vector<String> row : data) {
+				jcbLast.addItem(row.get(0));
+			}
+
+			refresh();
+
+		});
+
+		airSearchForm = this;
+		jlDate.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mousePressed(e);
+
+				int jcbStartIndex = jcbStart.getSelectedIndex();
+				
+//				if (jcbStart.getSelectedIndex() == 0 || jcbLast.getSelectedIndex() == 0) {
+//					Msg.error("출발지와 도착지를 선택하세요.");
+//					return;
+//				}
+
+				new DateChoseForm(airSearchForm);
+
+			}
+
+		});
+
+		jbOkey.addActionListener(e -> {
+
+			String startLand = jcbStart.getSelectedItem() + "";
+			String lastLand = jcbLast.getSelectedItem() + "";
+			String startDate = jtfDate.getText();
+
+			System.out.println("startLand : " + startLand);
+			System.out.println("lastLand : " + lastLand);
+			System.out.println("startDate : " + startDate);
+
+			if (jcbStart.getSelectedIndex() == 0 || jcbLast.getSelectedIndex() == 0 || startDate.isBlank()) {
+				Msg.error("빈칸이 있습니다.");
+				return;
+			}
+
+			AirTicketManager.startLand = startLand;
+			AirTicketManager.lastLand = lastLand;
+			AirTicketManager.startDate = startDate;
+
+			new AirChoseForm();
+			super.dispose();
+		});
+
+	}
+
+}

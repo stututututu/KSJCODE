@@ -1,0 +1,90 @@
+package windows;
+
+import java.util.Vector;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JRadioButton;
+
+import UserModel.UserModel;
+import bases.BaseFrame;
+import bases.BaseLabel;
+import bases.BaseTable;
+import jdbc.DbManager;
+
+public class MyPageForm extends BaseFrame {
+	private BaseLabel jlUser;
+	private JRadioButton jrbBorrowList;
+	private JRadioButton jrbLikeBook;
+	private ButtonGroup jrbGroup;
+	private BaseTable jtbCenter;
+	private String allDataSize;
+	private String returnDone;
+	private String returned;
+	private String returnIng;
+	private BaseLabel jlUserInfo;
+	private JButton jbDelete;
+	private JButton jbPdf;
+
+	public MyPageForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("마이페이지", 700, 400);
+	}
+
+	@Override
+	public void made() {
+		// TODO Auto-generated method stub
+		jlUser = new BaseLabel("회원 : " + UserModel.userData.get(1));
+		jrbBorrowList = new JRadioButton("대출내역");
+		jrbLikeBook = new JRadioButton("관심도서");
+
+		jrbGroup = new ButtonGroup();
+		jrbGroup.add(jrbBorrowList);
+		jrbGroup.add(jrbLikeBook);
+
+		jlUserInfo = new BaseLabel("총 대여이력 : " + allDataSize + "권  반납완료 : " + returnDone + "연체 중 : " + returned
+				+ "권  대출 중 : " + returnIng + "권");
+
+		jbDelete = new JButton("삭제하기");
+		jbPdf = new JButton("pdf출력");
+
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+
+		jpTop.addChild();
+		jpTop.jpLeft.setFlowLeft();
+		jpTop.jpLeft.add(jlUser);
+		jpTop.jpRight.setFlowRight();
+		jpTop.jpRight.add(jrbBorrowList);
+		jpTop.jpRight.add(jrbLikeBook);
+
+		updateBorrowList();
+
+		jpBottom.addChild();
+		jpBottom.jpLeft.setFlowLeft();
+		jpBottom.jpLeft.add(jlUserInfo);
+		jpBottom.jpRight.setFlowRight();
+		jpBottom.jpRight.add(jbDelete);
+		jpBottom.jpRight.add(jbPdf);
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+	}
+
+	private void updateBorrowList() {
+		// TODO Auto-generated method stub
+		
+		Vector<Vector<String>> borrowBookList = DbManager.db.getDb("", UserModel.userData.get(0));
+		
+		jtbCenter = new BaseTable(null, "dd");
+		jpCenter.add(jtbCenter);
+
+	}
+
+}

@@ -1,0 +1,17 @@
+package bases;
+
+import java.awt.Color;
+import java.awt.Component;
+
+import javax.swing.JTextArea;
+
+public class BaseTextArea extends JTextArea {
+	public BaseTextArea(String string) {
+		// TODO Auto-generated constructor stub
+		super.setBackground(Color.white);
+		super.setLineWrap(true);
+		super.setEditable(false);
+		super.setSelectionColor(Color.white);
+		super.setText(string);
+	}
+}

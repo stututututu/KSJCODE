@@ -1,0 +1,17 @@
+package res;
+
+public class AirTicketManager {
+	public static int month = -1;
+	public static int day = -1;
+	public static int depart = -1;
+	public static int arrival = -1;
+
+	public void setNull() {
+		// TODO Auto-generated method stub
+		AirTicketManager.month = -1;
+		AirTicketManager.day = -1;
+		AirTicketManager.depart = -1;
+		AirTicketManager.arrival = -1;
+	}
+
+}

@@ -1,0 +1,23 @@
+package bases;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.JPanel;
+
+public class BasePanel extends JPanel {
+	public BasePanel() {
+		// TODO Auto-generated constructor stub
+		super.setBackground(Color.white);
+		super.setLayout(new BorderLayout());
+	}
+
+	public void addChild() {
+		// TODO Auto-generated method stub
+		jpTop = new BasePanel();
+		jpLeft = new BasePanel();
+		jpCenter = new BasePanel();
+		jpRight = new BasePanel();
+		jpBottom = new BasePanel();
+	}
+}

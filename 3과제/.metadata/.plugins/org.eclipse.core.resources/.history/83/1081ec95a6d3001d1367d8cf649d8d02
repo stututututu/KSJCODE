@@ -1,0 +1,29 @@
+package windows;
+
+import bases.BaseFrame;
+
+public class InfoUpdateForm extends BaseFrame {
+	public InfoUpdateForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("정보수정", WIDTH, HEIGHT);
+	}
+
+	@Override
+	public void make() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

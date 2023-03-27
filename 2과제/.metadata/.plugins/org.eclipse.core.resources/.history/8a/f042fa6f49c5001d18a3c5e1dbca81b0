@@ -1,0 +1,48 @@
+package windows;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButton;
+
+import UserModel.UserModel;
+import bases.BaseFrame;
+import bases.BaseLabel;
+
+public class MyPageForm extends BaseFrame {
+	private BaseLabel jlUser;
+	private JRadioButton jrbBorrowList;
+	private JRadioButton jrbLikeBook;
+	private ButtonGroup jrbGroup;
+
+	public MyPageForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("마이페이지", 700, 400);
+	}
+
+	@Override
+	public void made() {
+		// TODO Auto-generated method stub
+		jlUser = new BaseLabel("회원 : " + UserModel.userData.get(1));
+		jrbBorrowList = new JRadioButton("대출내역");
+		jrbLikeBook = new JRadioButton("관심도서");
+
+		jrbGroup = new ButtonGroup();
+		jrbGroup.add(jrbBorrowList);
+		jrbGroup.add(jrbLikeBook);
+
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpCenter.add(jrbBorrowList);
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+		jrbBorrowList.addActionListener(e -> {
+			System.out.println(jrbGroup.getSelection());
+		});
+	}
+
+}

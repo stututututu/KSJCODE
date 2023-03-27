@@ -1,0 +1,25 @@
+package windows;
+
+import bases.BaseFrame;
+
+public class MyPageForm extends BaseFrame{
+
+	@Override
+	public void made() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

@@ -1,0 +1,63 @@
+package windows;
+
+import java.awt.Dimension;
+
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
+import bases.BaseComboBox;
+import bases.BaseFrame;
+import bases.BaseLabel;
+import bases.BaseTable;
+
+public class BookSetForm extends BaseFrame {
+	private BaseComboBox jcbSearchType;
+	private JTextField jtfSearch;
+	private JButton jbSearch;
+	private BaseLabel jlCnt;
+	private BaseTable jspCenter;
+
+	public BookSetForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("도서관리", 850, 700);
+	}
+
+	@Override
+	public void made() {
+		// TODO Auto-generated method stub
+		jcbSearchType = new BaseComboBox("도서명", "저자");
+		jtfSearch = new JTextField();
+		jtfSearch.setPreferredSize(new Dimension(250, 27));
+
+		jbSearch = new JButton("검색");
+
+		jspCenter = new BaseTable(null, "이미지", "도서명", "분류", "저자", "수량", "페이지");
+
+		jlCnt = new BaseLabel("검색권수 : n권");
+
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpTop.addChild();
+		jpTop.jpTop.add(new BaseLabel("도서 관리").setTextFontSize(20).setTextCenter());
+		jpTop.jpBottom.setFlowRight();
+		jpTop.jpBottom.add(jcbSearchType);
+		jpTop.jpBottom.add(jtfSearch);
+		jpTop.jpBottom.add(jbSearch);
+
+		jpCenter.add(jspCenter.setWidth(100, 240, 100, 100, 100, 100));
+
+		jpBottom.setFlowRight();
+		jpBottom.add(jlCnt);
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,74 @@
+package windows;
+
+import java.awt.Color;
+import java.util.Vector;
+
+import javax.swing.JTextArea;
+
+import bases.BaseFrame;
+import bases.BaseLabel;
+import bases.BasePanel;
+import bases.BaseTextArea;
+
+public class GraphForm extends BaseFrame {
+	private BasePanel jpGraph;
+	private Vector<Color> colors;
+
+	public GraphForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("통계", 489, 443);
+	}
+
+	@Override
+	public void made() {
+		// TODO Auto-generated method stub
+
+		colors = new Vector<Color>();
+		colors.add(Color.red);
+		colors.add(Color.orange);
+		colors.add(Color.yellow);
+		colors.add(Color.green);
+		colors.add(Color.blue);
+
+		jpGraph = new BasePanel().setGrid(1, 5, 0, 0);
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpTop.add(new BaseLabel("인기도서", 25).setTextCenter());
+		jpCenter.add(jpGraph);
+
+		changeGraph();
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void changeGraph() {
+		// TODO Auto-generated method stub
+
+		jpGraph.removeAll();
+
+		for (int i = 0; i < 5; i++) {
+
+			BasePanel tmpGraph = new BasePanel();
+			tmpGraph.addChild();
+
+			tmpGraph.jpTop.add(new BaseLabel("건"));
+			tmpGraph.jpCenter.setLine().setBackground(colors.get(i));
+			tmpGraph.jpBottom.add(new BaseTextArea("cㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ"));
+			
+			tmpGraph.jpTop.setBorder(i * 10, 0, 0, 0);
+
+			jpGraph.add(tmpGraph);
+
+		}
+
+	}
+
+}

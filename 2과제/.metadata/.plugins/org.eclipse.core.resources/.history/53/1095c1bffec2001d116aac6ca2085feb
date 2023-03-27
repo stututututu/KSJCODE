@@ -1,0 +1,44 @@
+package windows;
+
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
+import bases.BaseComboBox;
+import bases.BaseFrame;
+import bases.BaseLabel;
+
+public class BookSetForm extends BaseFrame {
+	private BaseComboBox jcbSearchType;
+	private JTextField jtfSearch;
+	private JButton jbSearch;
+	private BaseLabel jlCnt;
+
+	public BookSetForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("도서관리", 750, 475);
+	}
+
+	@Override
+	public void made() {
+		// TODO Auto-generated method stub
+		jcbSearchType = new BaseComboBox("도서명", "저자");
+		jtfSearch = new JTextField();
+		jbSearch = new JButton("검색");
+
+		jlCnt = new BaseLabel("검색권수 : n권");
+
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

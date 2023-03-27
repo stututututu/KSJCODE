@@ -1,0 +1,188 @@
+package windows;
+
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import bases.BaseComboBox;
+import bases.BaseFrame;
+import bases.BaseImageLabel;
+import bases.BaseLabel;
+import bases.BasePanel;
+import messge.Msg;
+import model.DataModel;
+import model.ImageModel;
+
+public class BookUpdateInsertForm extends BaseFrame {
+
+	private ImageModel row;
+	private BasePanel jpImg;
+	private BaseComboBox jcbBookType;
+	private JTextField jtfBookName;
+	private JTextField jtfBookAuthor;
+	private JTextField jtfBookCount;
+	private JTextField jtfBookPage;
+	private JTextArea jtaExp;
+	private JButton jbUpdate;
+	private BasePanel jpBookType;
+
+	public BookUpdateInsertForm(ImageModel row) {
+		// TODO Auto-generated constructor stub
+		this.row = row;
+		System.out.println(row.getData());
+		setFrame("도서수정", 450, 400);
+	}
+
+	public BookUpdateInsertForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("도서등록", 450, 400);
+	}
+
+	@Override
+	public void made() {
+		// TODO Auto-generated method stub
+		jpImg = new BasePanel().setLine();
+		jpImg.setPreferredSize(new Dimension(170, 0));
+		jcbBookType = new BaseComboBox(DataModel.blankType());
+		jpBookType = new BasePanel().setFlowLeft();
+		jpBookType.add(jcbBookType);
+
+		jtfBookName = new JTextField();
+		jtfBookAuthor = new JTextField();
+		jtfBookCount = new JTextField();
+		jtfBookPage = new JTextField();
+		jtaExp = new JTextArea();
+		jtaExp.setPreferredSize(new Dimension(0, 100));
+		jbUpdate = new JButton("수정");
+
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpCenter.addChild();
+
+		jpCenter.jpLeft.add(jpImg);
+		jpCenter.jpCenter.addChild();
+		jpCenter.jpCenter.jpLeft.setGrid(5, 1, 0, 5);
+		jpCenter.jpCenter.jpLeft.add(new BaseLabel("분류"));
+		jpCenter.jpCenter.jpLeft.add(new BaseLabel("도서명"));
+		jpCenter.jpCenter.jpLeft.add(new BaseLabel("저자"));
+		jpCenter.jpCenter.jpLeft.add(new BaseLabel("수량"));
+		jpCenter.jpCenter.jpLeft.add(new BaseLabel("페이지"));
+
+		jpCenter.jpCenter.jpCenter.setGrid(5, 1, 0, 5);
+		jpCenter.jpCenter.jpCenter.add(jpBookType);
+		jpCenter.jpCenter.jpCenter.add(jtfBookName);
+		jpCenter.jpCenter.jpCenter.add(jtfBookAuthor);
+		jpCenter.jpCenter.jpCenter.add(jtfBookCount);
+		jpCenter.jpCenter.jpCenter.add(jtfBookPage);
+
+		jpBottom.addChild();
+		jpBottom.jpTop.setFlowLeft().add(new BaseLabel("설명").setTextSize(15));
+		jpBottom.jpCenter.add(jtaExp);
+		jpBottom.jpCenter.setLine();
+		jpBottom.jpBottom.setFlowRight().add(jbUpdate);
+
+		jpMain.setBorder(10, 10, 10, 10);
+
+		setForm();
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+		jpImg.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mousePressed(e);
+
+				if (e.getClickCount() == 2) {
+
+					JFileChooser fileCho = new JFileChooser();
+
+					int rsut = fileCho.showOpenDialog(BookUpdateInsertForm.this);
+
+					System.out.println(rsut);
+					if (rsut == 1) {
+						return;
+					}
+
+					File file = fileCho.getSelectedFile();
+					System.out.println(file);
+
+					ImageIcon img = new ImageIcon(file + "");
+
+					jpImg.removeAll();
+
+					jpImg.add(new BaseImageLabel("", img, 170, 170));
+					refresh();
+				}
+
+			}
+
+		});
+
+		jbUpdate.addActionListener(e -> {
+
+			String b_author = jtfBookAuthor.getText();
+			String b_count = jtfBookCount.getText();
+			String b_exp = jtaExp.getText();
+
+			if (b_author.isBlank() || b_count.isBlank() || b_exp.isBlank()) {
+				Msg.error("빈칸이 있습니다.");
+				return;
+			}
+
+			if (Integer.parseInt(b_count) < 1) {
+				Msg.error("수량은 1이상의 숫자로 입력하세요.");
+				jtfBookCount.setText("");
+				jtfBookCount.requestFocus();
+				return;
+			}
+
+			System.out.println("도서 수정");
+
+		});
+
+	}
+
+	private void setForm() {
+		// TODO Auto-generated method stub
+		if (super.getTitle().equals("도서수정")) {
+			System.out.println("도서수정임");
+
+			jpImg.add(new BaseImageLabel("", row.getIcon(), 170, 170));
+
+			jcbBookType.setSelectedIndex(Integer.parseInt(row.getData().get(2)));
+			jtfBookName.setText(row.getData().get(1));
+			jtfBookAuthor.setText(row.getData().get(3));
+			jtfBookCount.setText(row.getData().get(4));
+			jtfBookPage.setText(row.getData().get(5));
+
+			jtaExp.setText(row.getData().get(6));
+
+			jtaExp.setLineWrap(true);
+
+			jcbBookType.setEnabled(false);
+			jtfBookName.setEnabled(false);
+			jtfBookPage.setEnabled(false);
+
+		}
+		if (super.getTitle().equals("도서등록")) {
+			System.out.println("도서등록임");
+
+		}
+	}
+
+}

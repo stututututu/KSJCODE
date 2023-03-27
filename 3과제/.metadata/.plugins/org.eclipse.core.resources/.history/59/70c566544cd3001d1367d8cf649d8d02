@@ -1,0 +1,15 @@
+package jdbc;
+
+public class DbCreate {
+	public DbCreate() {
+		// TODO Auto-generated constructor stub
+
+		int rst = DbManager.db.setDb("");
+
+		if (rst == -1) {
+			Msg.error("셋팅 실패");
+			return
+		}
+		Msg.info("셋팅 성공");
+	}
+}

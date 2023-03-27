@@ -1,0 +1,184 @@
+package windows;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Vector;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.plaf.DimensionUIResource;
+
+import UserModel.UserModel;
+import bases.BaseComboBox;
+import bases.BaseFrame;
+import bases.BaseImageLabel;
+import bases.BaseLabel;
+import bases.BasePanel;
+import bases.BaseTable;
+import bases.NullPanel;
+import jdbc.DbManager;
+import model.DataModel;
+import model.ImageModel;
+
+public class BookListForm extends BaseFrame {
+	private BaseComboBox jcbSearchType;
+	private JTextField jtfSearch;
+	private JButton jbSearch;
+	private BaseTable jtbBookType;
+	private JScrollPane jspBookImg;
+	private BasePanel jpGridImg;
+	private BaseLabel jlRowCnt;
+
+	public BookListForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("도서목록", 850, 500);
+	}
+
+	@Override
+	public void made() {
+		// TODO Auto-generated method stub
+		jcbSearchType = new BaseComboBox("도서명", "저자");
+		jtfSearch = new JTextField();
+		jtfSearch.setPreferredSize(new Dimension(160, 26));
+		jbSearch = new JButton("검색");
+
+		jtbBookType = new BaseTable(DataModel.allType(), "분류");
+
+		jtbBookType.jtb.setRowSelectionAllowed(false);
+
+		jpGridImg = new BasePanel().setGrid(0, 4, 10, 0);
+		jspBookImg = new JScrollPane(jpGridImg);
+
+		jlRowCnt = new BaseLabel("검색 건수 : ");
+
+		changeGridImg();
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpTop.addChild();
+		jpTop.jpTop.add(new BaseLabel("도서 목록", 25).setTextCenter());
+		jpTop.jpBottom.setFlowRight();
+		jpTop.jpBottom.add(new BaseLabel("검색"));
+		jpTop.jpBottom.add(jcbSearchType);
+		jpTop.jpBottom.add(jtfSearch);
+		jpTop.jpBottom.add(jbSearch);
+
+		jpCenter.addChild();
+		jpCenter.jpCenter.add(jtbBookType);
+		jpCenter.jpRight.add(jspBookImg);
+		jspBookImg.setPreferredSize(new DimensionUIResource(700, 0));
+
+		jpBottom.setFlowRight().add(jlRowCnt);
+
+		jpMain.setBorder(25, 15, 15, 15);
+		jpCenter.jpRight.setBorder(0, 10, 0, 0);
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+		jbSearch.addActionListener(e -> {
+			changeGridImg();
+		});
+	}
+
+	private void changeGridImg() {
+		// TODO Auto-generated method stub
+		jpGridImg.removeAll();
+
+		String b_name = "";
+		String b_author = "";
+		String b_type = "%";
+
+		int searchType = jcbSearchType.getSelectedIndex();
+
+		if (searchType == 0) {
+			b_name = jtfSearch.getText();
+		} else {
+			b_author = jtfSearch.getText();
+		}
+
+		b_type = (jtbBookType.jtb.getSelectedRow() == 0 ? "%" : jtbBookType.jtb.getSelectedRow() + "");
+
+		b_name = b_name.replace(" ", "");
+		b_author = b_author.replace(" ", "");
+
+		System.out.println("b_name : " + b_name);
+		System.out.println("b_author : " + b_author);
+		System.out.println("b_type : " + b_type);
+
+		Vector<ImageModel> bookData = DbManager.db.getImageModel(
+				"SELECT \r\n" + "b.*, d.* \r\n" + "FROM 2023지방_2.book as b\r\n" + "join division as d\r\n"
+						+ "on b.d_no = d.d_no\r\n" + "where replace(b.b_name, ' ', '')  like concat('%', ?, '%')\r\n"
+						+ "and replace(b.b_author, ' ', '') like concat('%', ?, '%')\r\n"
+						+ "and b.d_no like concat(?);\r\n" + "",
+				7, b_name, b_author, b_type);
+
+		for (ImageModel row : bookData) {
+			BaseImageLabel imgLabel = new BaseImageLabel(row.getData().get(1), row.getIcon(), 140, 160)
+					.setLocateBottom().setTextCenter();
+			BaseLabel likeLabel = new BaseLabel("♡", 20);
+			likeLabel.setForeground(Color.red);
+
+			Vector<Vector<String>> likeData = DbManager.db.getDb(
+					"SELECT * FROM 2023지방_2.likebook where u_no = ? and b_no = ?;", UserModel.userData.get(0),
+					row.getData().get(0));
+			if (likeData.size() != 0) {
+				likeLabel.setText("♥");
+			}
+
+			NullPanel jpTmp = new NullPanel(150, 185, imgLabel, 7, 2, 150, 180, likeLabel, 0, 0, 30, 30);
+
+			imgLabel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					super.mousePressed(e);
+
+					new BookInfoForm(row);
+//					if (e.getClickCount() == 2) {
+//					}
+
+				}
+
+			});
+
+			likeLabel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					super.mousePressed(e);
+
+					if (likeLabel.getText().equals("♡")) {
+						likeLabel.setText("♥");
+						DbManager.db.setDb("INSERT INTO `2023지방_2`.`likebook` (`u_no`, `b_no`) VALUES (?, ?);",
+								UserModel.userData.get(0), row.getData().get(0));
+
+					} else {
+						likeLabel.setText("♡");
+						DbManager.db.setDb("DELETE FROM `2023지방_2`.`likebook` WHERE u_no = ? and b_no = ?;",
+								UserModel.userData.get(0), row.getData().get(0));
+
+					}
+
+				}
+
+			});
+
+			jpGridImg.add(jpTmp);
+
+		}
+
+		jlRowCnt.setText("검색 건수 : " + bookData.size() + "건");
+
+		super.refresh();
+
+	}
+
+}

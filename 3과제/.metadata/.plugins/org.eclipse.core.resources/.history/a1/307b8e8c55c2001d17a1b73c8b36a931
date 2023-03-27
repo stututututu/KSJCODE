@@ -1,0 +1,7 @@
+package windows;
+
+import bases.BaseFrame;
+
+public class MyPageForm extends BaseFrame{
+
+}

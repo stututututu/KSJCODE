@@ -1,0 +1,37 @@
+package windows;
+
+import bases.BaseFrame;
+import bases.BaseLabel;
+import bases.BaseTable;
+
+public class MyPageForm extends BaseFrame {
+	private BaseLabel jlPoint;
+
+	public MyPageForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("마이페이지", 750, 450);
+	}
+
+	@Override
+	public void make() {
+		// TODO Auto-generated method stub
+		jtbCenter = new BaseTable(null, "번호", "출발지", "도착지", "날짜", "출발시간", "소요시간", "사용마일리지", "적립마일리지");
+
+		jlPoint = new BaseLabel("마일리지 : ");
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpBottom.setFlowRight();
+		jpBottom.add(jlPoint);
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

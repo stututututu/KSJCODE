@@ -1,0 +1,145 @@
+package windows;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Vector;
+import java.util.regex.Pattern;
+
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
+
+import bases.BaseFrame;
+import bases.BaseLabel;
+import jdbc.DbManager;
+import messge.Msg;
+
+public class SignUpForm extends BaseFrame {
+	private JTextField jtfId;
+	private JTextField jtfPw;
+	private JTextField jtfName1;
+	private JTextField jtfName2;
+	private JTextField jtfBirth;
+	private JButton jbDoubleCk;
+	private JButton jbSignUp;
+	private boolean idCk = false;
+
+	public SignUpForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("회원가입", 350, 350);
+	}
+
+	@Override
+	public void make() {
+		// TODO Auto-generated method stub
+		jtfId = new JTextField();
+		jtfPw = new JTextField();
+		jtfName1 = new JTextField();
+		jtfName2 = new JTextField();
+		jtfBirth = new JTextField();
+
+		jbDoubleCk = new JButton("중복확인");
+		jbSignUp = new JButton("회원가입");
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpTop.add(new BaseLabel("회원가입").setTextFontSize(25).setTextCenter());
+
+		jpCenter.addChild();
+		jpCenter.jpLeft.setGrid(5, 1, 0, 15);
+		jpCenter.jpLeft.add(new BaseLabel("아이디"));
+		jpCenter.jpLeft.add(new BaseLabel("비밀번호"));
+		jpCenter.jpLeft.add(new BaseLabel("이름(한글)"));
+		jpCenter.jpLeft.add(new BaseLabel("이름(영문)"));
+		jpCenter.jpLeft.add(new BaseLabel("생년월일"));
+
+		jpCenter.jpCenter.setGrid(5, 1, 0, 15);
+		jpCenter.jpCenter.add(jtfId);
+		jpCenter.jpCenter.add(jtfPw);
+		jpCenter.jpCenter.add(jtfName1);
+		jpCenter.jpCenter.add(jtfName2);
+		jpCenter.jpCenter.add(jtfBirth);
+
+		jpCenter.jpRight.setGrid(5, 1, 0, 15);
+		jpCenter.jpRight.add(jbDoubleCk);
+		jpCenter.jpRight.add(new BaseLabel(""));
+		jpCenter.jpRight.add(new BaseLabel(""));
+		jpCenter.jpRight.add(new BaseLabel(""));
+		jpCenter.jpRight.add(new BaseLabel(""));
+
+		jpBottom.setFlowCenter();
+		jpBottom.add(jbSignUp);
+
+		jpCenter.setEmtyBorder(15, 15, 15, 15);
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+		jtfId.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				super.keyTyped(e);
+				idCk = false;
+			}
+		});
+
+		jbDoubleCk.addActionListener(e -> {
+			idCk = false;
+
+			String id = jtfId.getText();
+			System.out.println("id :" + id);
+
+			if (id.isBlank()) {
+				Msg.error("아이디를 입력해주세요.");
+				return;
+
+			}
+			Vector<Vector<String>> idCkData = DbManager.db.getDb("SELECT * FROM 2023지방_3.user where id = ?;", id);
+			if (idCkData.size() != 0) {
+				Msg.error("중복된 아이디 입니다.");
+				jtfId.setText("");
+				jtfId.requestFocus();
+				return;
+			}
+			idCk = true;
+			Msg.info("사용 가능한 아이디 입니다.");
+
+		});
+
+		jbSignUp.addActionListener(e -> {
+			String id = jtfId.getText();
+			String pw = jtfPw.getText();
+			String name1 = jtfName1.getText();
+			String name2 = jtfName2.getText();
+			String birth = jtfBirth.getText();
+
+			System.out.println("id : " + id);
+			System.out.println("pw : " + pw);
+			System.out.println("name1 : " + name1);
+			System.out.println("name2 : " + name2);
+			System.out.println("birth : " + birth);
+
+//			if (id.isBlank() || pw.isBlank() || name1.isBlank() || name2.isBlank() || birth.isBlank()) {
+//				Msg.error("빈칸이 있습니다.");
+//				return;
+//			}
+//			if (!idCk) {
+//				Msg.error("중복확인을 해주세요.");
+//				return;
+//			}
+			String patternName = "^([ㄱ-ㅎㅏ-ㅣ가-힣]+)$";
+			if (Pattern.matches(patternName, name1)) {
+				Msg.error("한글 이름은 한글만 가능합니다.");
+				return;
+
+			}
+
+		});
+	}
+
+}

@@ -1,0 +1,10 @@
+package bases;
+
+import javax.swing.JFrame;
+
+public abstract class BaseFrame extends JFrame implements BaseI {
+	public void setFrame() {
+		// TODO Auto-generated method stub
+
+	}
+}

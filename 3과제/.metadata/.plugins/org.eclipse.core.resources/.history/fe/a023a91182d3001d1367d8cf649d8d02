@@ -1,0 +1,10 @@
+package bases;
+
+import javax.swing.JButton;
+
+public class BaseButton extends JButton {
+	public BaseButton() {
+		// TODO Auto-generated constructor stub
+		super.setText(text);
+	}
+}

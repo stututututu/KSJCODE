@@ -1,0 +1,22 @@
+package messge;
+
+import javax.swing.JOptionPane;
+
+public class Msg {
+
+	public static void error(String string) {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, string, "경고", JOptionPane.ERROR_MESSAGE);
+	}
+
+	public static void info(String string) {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, string, "정보", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public static void qu(String string) {
+		// TODO Auto-generated method stub
+		JOptionPane.showConfirmDialog(null, string, "결제", JOptionPane.QUESTION_MESSAGE);
+	}
+
+}

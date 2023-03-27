@@ -1,0 +1,52 @@
+package windows;
+
+import java.awt.Color;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.swing.JButton;
+
+import bases.BaseFrame;
+import bases.BaseLabel;
+import bases.BaseTable;
+import jdbc.DbManager;
+import res.AirTicketManager;
+
+public class AirChoseForm extends BaseFrame {
+	private BaseLabel jlDate;
+	private BaseTable jtbCenter;
+	private JButton jbOkey;
+
+	public AirChoseForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("항공권 선택", 600, 450);
+	}
+
+	@Override
+	public void make() {
+		// TODO Auto-generated method stub
+		jlDate = new BaseLabel();
+
+		jtbCenter = new BaseTable(DbManager.db.getDb(""), "번호", "출발지", "도착지", "출발시간", "도착시간", "가격", "잔여좌석");
+
+		jbOkey = new JButton("확인");
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpTop.add(jlDate.setLine(0, 0, 3, 0, Color.black));
+		jpCenter.add(jtbCenter.setCenter());
+		jpBottom.setFlowRight();
+		jpBottom.add(jbOkey);
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

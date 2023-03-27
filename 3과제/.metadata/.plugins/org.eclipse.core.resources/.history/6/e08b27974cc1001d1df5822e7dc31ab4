@@ -1,0 +1,38 @@
+package windows;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import bases.BaseFrame;
+import bases.BaseLabel;
+import res.AirTicketManager;
+
+public class AirChoseForm extends BaseFrame {
+	private BaseLabel jlDate;
+
+	public AirChoseForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("항공권 선택", 600, 450);
+	}
+
+	@Override
+	public void make() {
+		// TODO Auto-generated method stub
+		jlDate = new BaseLabel();
+
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

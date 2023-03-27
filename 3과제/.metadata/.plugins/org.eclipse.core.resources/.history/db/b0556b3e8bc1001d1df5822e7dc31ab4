@@ -1,0 +1,119 @@
+package windows;
+
+import java.text.SimpleDateFormat;
+import java.util.Vector;
+
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
+import bases.BaseFrame;
+import bases.BaseLabel;
+import bases.BasePanel;
+import bases.BaseTable;
+import messge.Msg;
+import res.AirTicketManager;
+
+public class BoardingChoseForm extends BaseFrame {
+	private BaseLabel jlDate;
+	private JButton jbInsert;
+	private JTextField jtfFristName;
+	private JTextField jtfLastName;
+	private JTextField jtfBirth;
+	private BaseTable jtbCenter;
+	private JButton jbDelete;
+	private JButton jbDone;
+	private BasePanel jpName;
+
+	public BoardingChoseForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("탑승객정보입력", 928, 311);
+	}
+
+	@Override
+	public void make() {
+		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat(
+				"yy.MM.dd(E) " + AirTicketManager.departString + " → " + AirTicketManager.arrivalString);
+		jlDate = new BaseLabel(sdf.format(AirTicketManager.date)).setTextFontSize(20).setTextLeft();
+		jbInsert = new JButton("입력");
+
+		jtfFristName = new JTextField(8);
+		jtfLastName = new JTextField(8);
+
+		jpName = new BasePanel().setGrid(1, 2, 5, 0);
+		jpName.add(jtfFristName);
+		jpName.add(jtfLastName);
+
+		jtfBirth = new JTextField(16);
+
+		Vector<Vector<String>> data = new Vector<Vector<String>>();
+
+		jtbCenter = new BaseTable(data, "이름(영문)", "생년월일", "등급");
+
+		jbDelete = new JButton("삭제하기");
+		jbDone = new JButton("완료");
+
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpTop.addChild();
+		jpTop.jpCenter.add(jlDate);
+		jpTop.jpRight.add(jbInsert);
+
+		jpCenter.addChild();
+		jpCenter.jpLeft.addChild();
+
+		jpCenter.jpLeft.jpLeft.setGrid(4, 1, 0, 15);
+		jpCenter.jpLeft.jpLeft.add(new BaseLabel("이름(영문)"));
+		jpCenter.jpLeft.jpLeft.add(new BaseLabel("생년월일"));
+		jpCenter.jpLeft.jpLeft.add(new BaseLabel(""));
+		jpCenter.jpLeft.jpLeft.add(new BaseLabel(""));
+
+		jpCenter.jpLeft.jpCenter.setGrid(4, 1, 0, 15);
+		jpCenter.jpLeft.jpCenter.add(jpName);
+		jpCenter.jpLeft.jpCenter.add(jtfBirth);
+		jpCenter.jpLeft.jpCenter.add(new BaseLabel());
+		jpCenter.jpLeft.jpCenter.add(new BaseLabel());
+
+		jpCenter.jpCenter.add(jtbCenter.setCenter());
+
+		jpBottom.setFlowRight();
+		jpBottom.add(jbDelete);
+		jpBottom.add(jbDone);
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+		jbInsert.addActionListener(e -> {
+
+			String firstName = jtfFristName.getText();
+			String lastName = jtfLastName.getText();
+			String birth = jtfBirth.getText();
+
+			System.err.println("firstName : " + firstName);
+			System.err.println("lastName : " + lastName);
+			System.err.println("birth : " + birth);
+
+			if (firstName.isBlank() || lastName.isBlank() || birth.isBlank()) {
+				Msg.error("이름 또는 생년월일을 입력해주세요.");
+				return;
+			}
+
+			String name = firstName + " " + lastName;
+
+			int year = Integer.parseInt(birth.split("-")[0]);
+
+			jtbCenter.addData(name, birth, 2023 - year - 1 + "");
+
+			for (Vector<String> row : jtbCenter.data) {
+				System.out.println(row);
+			}
+
+		});
+	}
+
+}

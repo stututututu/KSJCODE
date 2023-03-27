@@ -1,0 +1,49 @@
+package jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class DbManager {
+	private static final String URL = "jdbc:mysql://localhost/?" + "useSSL=false&" + "CharacterEncoding=UTF-8&"
+			+ "serverTimezone=UTC&" + "allowPublicKeyRetrieval=true&" + "allowLoadLocalInfile=true&"
+			+ "allowMultiQueries=true";
+	private static final String ID = "root";
+	private static final String PW = "1234";
+	private Connection con;
+	private PreparedStatement pstmt;
+
+	public static DbManager db = new DbManager();
+
+	public DbManager() {
+		// TODO Auto-generated constructor stub
+		try {
+			con = DriverManager.getConnection(URL, ID, PW);
+			System.err.println("연결 성공");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public int setDb(String sql, Object... vals) {
+		// TODO Auto-generated method stub
+		try {
+			pstmt = con.prepareStatement(sql);
+
+			int cnt = 1;
+			for (Object val : vals) {
+				pstmt.setObject(cnt++, val);
+			}
+
+			return pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}
+
+	}
+}

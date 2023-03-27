@@ -1,0 +1,32 @@
+package windows;
+
+import bases.BaseFrame;
+import bases.BaseLabel;
+
+public class MyPageForm extends BaseFrame {
+	private BaseLabel jlPoint;
+
+	public MyPageForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("마이페이지", 750, 450);
+	}
+
+	@Override
+	public void make() {
+		// TODO Auto-generated method stub
+		jlPoint = new BaseLabel("마일리지 : ");
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

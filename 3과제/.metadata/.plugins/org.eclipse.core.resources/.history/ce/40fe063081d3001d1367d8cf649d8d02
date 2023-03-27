@@ -1,0 +1,44 @@
+package bases;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+
+public class BasePanel extends JPanel {
+	public BasePanel jpTop;
+	public BasePanel jpLeft;
+	public BasePanel jpCenter;
+	public BasePanel jpRight;
+	public BasePanel jpBottom;
+
+	public BasePanel() {
+		// TODO Auto-generated constructor stub
+		super.setBackground(Color.white);
+		super.setLayout(new BorderLayout());
+	}
+
+	public BasePanel setEmtyBorder(int top, int left, int bottom, int right) {
+		// TODO Auto-generated constructor stub
+		super.setBorder(BorderFactory.createEmptyBorder(top, left, bottom, right));
+		return this;
+	}
+
+	public BasePanel addChild() {
+		// TODO Auto-generated method stub
+		jpTop = new BasePanel();
+		jpLeft = new BasePanel();
+		jpCenter = new BasePanel();
+		jpRight = new BasePanel();
+		jpBottom = new BasePanel();
+
+		super.add(jpTop, BorderLayout.NORTH);
+		super.add(jpLeft, BorderLayout.WEST);
+		super.add(jpCenter, BorderLayout.CENTER);
+		super.add(jpRight, BorderLayout.EAST);
+		super.add(jpBottom, BorderLayout.SOUTH);
+
+		return this;
+	}
+}

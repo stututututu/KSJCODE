@@ -1,0 +1,48 @@
+package bases;
+
+import java.awt.Component;
+import java.awt.Font;
+
+import javax.swing.JLabel;
+
+public class BaseLabel extends JLabel {
+	public BaseLabel() {
+		// TODO Auto-generated constructor stub
+
+	}
+
+	public BaseLabel(String text) {
+		// TODO Auto-generated constructor stub
+		super.setText(text);
+	}
+
+	public BaseLabel setTextFontSize(int size) {
+		// TODO Auto-generated constructor stub
+		super.setFont(new Font("HY헤드라인M", Font.PLAIN, size));
+		return this;
+	}
+
+	public BaseLabel setTextSize(int size) {
+		// TODO Auto-generated constructor stub
+		super.setFont(new Font(null, Font.PLAIN, size));
+		return this;
+	}
+
+	public BaseLabel setTextCenter() {
+		// TODO Auto-generated method stub
+		super.setHorizontalAlignment(JLabel.CENTER);
+		return this;
+	}
+
+	public BaseLabel setTextRight() {
+		// TODO Auto-generated method stub
+		super.setHorizontalAlignment(JLabel.RIGHT);
+		return this;
+	}
+
+	public BaseLabel setTextLeft() {
+		// TODO Auto-generated method stub
+		super.setHorizontalAlignment(JLabel.LEFT);
+		return this;
+	}
+}

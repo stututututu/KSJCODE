@@ -1,0 +1,12 @@
+package bases;
+
+import java.awt.Component;
+
+import javax.swing.JLabel;
+
+public class BaseImgLabel extends JLabel {
+	public BaseImgLabel() {
+		// TODO Auto-generated constructor stub
+		
+	}
+}

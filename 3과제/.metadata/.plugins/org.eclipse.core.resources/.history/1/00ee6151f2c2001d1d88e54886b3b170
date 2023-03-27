@@ -1,0 +1,131 @@
+package bases;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.border.MatteBorder;
+
+public class BaseLabel extends JLabel {
+	public BaseLabel() {
+		// TODO Auto-generated constructor stub
+		super.setHorizontalAlignment(JLabel.CENTER);
+	}
+
+	public BaseLabel(String text) {
+		// TODO Auto-generated constructor stub
+		super.setHorizontalAlignment(JLabel.CENTER);
+		super.setText(text);
+		super.setBackground(Color.white);
+		super.setOpaque(true);
+	}
+
+	public BaseLabel setTextFontSize(int size) {
+		// TODO Auto-generated constructor stub
+		super.setHorizontalAlignment(JLabel.CENTER);
+		super.setFont(new Font("HY헤드라인M", Font.PLAIN, size));
+		return this;
+	}
+
+	public BaseLabel setTextSize(int size) {
+		// TODO Auto-generated constructor stub
+		super.setFont(new Font(null, Font.PLAIN, size));
+		return this;
+	}
+
+	public BaseLabel setTextCenter() {
+		// TODO Auto-generated method stub
+
+		return this;
+	}
+
+	public BaseLabel setTextRight() {
+		// TODO Auto-generated method stub
+		super.setHorizontalAlignment(JLabel.RIGHT);
+		return this;
+	}
+
+	public BaseLabel setTextLeft() {
+		// TODO Auto-generated method stub
+		super.setHorizontalAlignment(JLabel.LEFT);
+		return this;
+	}
+
+	public BaseLabel addImg(String path, int width, int height) {
+		// TODO Auto-generated method stub
+		ImageIcon icon = new ImageIcon(path);
+//		Image img = icon.getImage();
+//		img = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+//		icon = new ImageIcon(img);
+
+		super.setIcon(icon);
+
+		return this;
+	}
+
+	public BaseLabel addImg(ImageIcon icon, int width, int height) {
+		// TODO Auto-generated method stub
+		Image img = icon.getImage();
+		img = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		icon = new ImageIcon(img);
+
+		super.setIcon(icon);
+
+		return this;
+	}
+
+	public BaseLabel setLine() {
+		// TODO Auto-generated method stub
+		super.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		return this;
+	}
+
+	public BaseLabel setLine(Color color) {
+		// TODO Auto-generated method stub
+		super.setBorder(BorderFactory.createLineBorder(color, 1));
+		return this;
+	}
+
+	public BaseLabel setLine(int top, int left, int bottom, int right) {
+		// TODO Auto-generated method stub
+		super.setBorder(new MatteBorder(top, left, bottom, right, Color.black));
+		return this;
+	}
+
+	public BaseLabel setLine(int top, int left, int bottom, int right, Color color) {
+		// TODO Auto-generated method stub
+		super.setBorder(new MatteBorder(top, left, bottom, right, color));
+		return this;
+	}
+
+	public BaseLabel setEnabled() {
+		// TODO Auto-generated method stub
+		super.setEnabled(false);
+		return this;
+	}
+
+	public BaseLabel setPSize(int width, int height) {
+		// TODO Auto-generated method stub
+		super.setPreferredSize(new Dimension(width, height));
+		return this;
+	}
+
+	public BaseLabel setBackgroundCol(Color color) {
+		// TODO Auto-generated method stub
+		super.setBackground(color);
+		return this;
+
+	}
+
+	public BaseLabel setBackgroundRed() {
+		// TODO Auto-generated method stub
+		super.setBackground(Color.red);
+		return this;
+
+	}
+}

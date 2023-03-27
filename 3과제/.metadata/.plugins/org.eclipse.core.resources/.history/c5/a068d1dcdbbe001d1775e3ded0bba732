@@ -1,0 +1,66 @@
+package windows;
+
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
+import bases.BaseFrame;
+import bases.BaseLabel;
+
+public class InfoUpdateForm extends BaseFrame {
+	private JTextField jtfId;
+	private JTextField jtfPw;
+	private JTextField jtfName1;
+	private JTextField jtfName2;
+	private JTextField jtfBirth;
+	private JButton jbInfoUpdate;
+
+	public InfoUpdateForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("정보수정", 300, 350);
+	}
+
+	@Override
+	public void make() {
+		// TODO Auto-generated method stub
+		jtfId = new JTextField();
+		jtfPw = new JTextField();
+		jtfName1 = new JTextField();
+		jtfName2 = new JTextField();
+		jtfBirth = new JTextField();
+
+		jbInfoUpdate = new JButton("정보수정");
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpTop.add(new BaseLabel("회원가입").setTextFontSize(25).setTextCenter());
+
+		jpCenter.addChild();
+		jpCenter.jpLeft.setGrid(5, 1, 0, 15);
+		jpCenter.jpLeft.add(new BaseLabel("아이디"));
+		jpCenter.jpLeft.add(new BaseLabel("비밀번호"));
+		jpCenter.jpLeft.add(new BaseLabel("이름(한글)"));
+		jpCenter.jpLeft.add(new BaseLabel("이름(영문)"));
+		jpCenter.jpLeft.add(new BaseLabel("생년월일"));
+
+		jpCenter.jpCenter.setGrid(5, 1, 0, 15);
+		jpCenter.jpCenter.add(jtfId);
+		jpCenter.jpCenter.add(jtfPw);
+		jpCenter.jpCenter.add(jtfName1);
+		jpCenter.jpCenter.add(jtfName2);
+		jpCenter.jpCenter.add(jtfBirth);
+
+		jpBottom.setFlowCenter();
+		jpBottom.add(jbInfoUpdate);
+
+		jpCenter.setEmtyBorder(15, 15, 15, 15);
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

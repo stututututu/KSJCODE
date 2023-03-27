@@ -1,0 +1,41 @@
+package windows;
+
+import bases.BaseFrame;
+import bases.BaseLabel;
+import bases.BasePanel;
+
+public class GraphForm extends BaseFrame {
+	private BasePanel jpGraph;
+
+	public GraphForm() {
+		// TODO Auto-generated constructor stub
+		setFrame("통계", 489, 443);
+	}
+
+	@Override
+	public void made() {
+		// TODO Auto-generated method stub
+		jpGraph = new BasePanel().setGrid(1, 5, 0, 0);
+	}
+
+	@Override
+	public void design() {
+		// TODO Auto-generated method stub
+		jpTop.add(new BaseLabel("인기도서", 25).setTextCenter());
+		jpCenter.add(jpGraph);
+	}
+
+	@Override
+	public void event() {
+		// TODO Auto-generated method stub
+
+	}
+	
+	private void changeGraph() {
+		// TODO Auto-generated method stub
+		
+		
+		
+	}
+
+}

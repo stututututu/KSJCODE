@@ -1,0 +1,17 @@
+package bases;
+
+import java.awt.Component;
+
+import javax.swing.JLabel;
+
+public class BaseLabel extends JLabel {
+	public BaseLabel() {
+		// TODO Auto-generated constructor stub
+
+	}
+
+	public BaseLabel(String text) {
+		// TODO Auto-generated constructor stub
+		super.setText(text);
+	}
+}

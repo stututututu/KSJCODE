@@ -1,0 +1,21 @@
+package run;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class test {
+	public static void main(String[] args) {
+		new test();
+	}
+
+	public test() {
+		// TODO Auto-generated constructor stub
+		Date now = new Date(2023, 11, 1);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd(E)");
+
+		System.out.println(sdf.format(now));
+
+	}
+}
